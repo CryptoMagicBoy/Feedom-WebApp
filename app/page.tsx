@@ -34,7 +34,7 @@ export default function Home() {
             <li>First Name: {UserData.first_name}</li>
             <li>Last Name: {UserData.last_name}</li>
             <li>Username: {UserData.username}</li>
-            <li>Lang: {UserData.languagee_code}</li>
+            <li>Lang: {UserData.language_code}</li>
             <li>Premium: {UserData.is_premium ? "Yes" : "No"}</li>
           </ul>
           </>
