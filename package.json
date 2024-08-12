@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "vercel-build": "prisma generate && next build"
@@ -23,6 +23,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
+    "sharp": "^0.33.4",
     "telegram": "^2.23.2",
     "tsconfig-paths": "^4.2.0",
     "zustand": "^4.5.4"
