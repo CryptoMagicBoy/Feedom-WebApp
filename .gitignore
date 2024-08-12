@@ -25,11 +25,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-<<<<<<< HEAD
 .env
-
-=======
->>>>>>> 41deb72b690e9996a073daedac78d7c6918b3ae7
 # local env files
 .env*.local
 
