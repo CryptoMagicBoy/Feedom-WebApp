@@ -1,0 +1,65 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                        String   @id @default(auto()) @map("_id") @db.ObjectId
+  telegramId                String   @unique
+  points                    Float    @default(0)
+  pointsBalance             Float    @default(0)
+  multitapLevelIndex        Int      @default(0)
+  energy                    Int      @default(100)
+  energyRefillsLeft         Int      @default(6)
+  energyLimitLevelIndex     Int      @default(0)
+  mineLevelIndex            Int      @default(0)
+  lastPointsUpdateTimestamp DateTime @default(now())
+  lastEnergyUpdateTimestamp DateTime @default(now())
+  lastEnergyRefillsTimestamp DateTime @default(now())
+  tonWalletAddress          String?
+
+  // Relation fields
+  referrals                 User[]   @relation("Referrals")
+  referredBy                User?    @relation("Referrals", fields: [referredById], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  referredById              String?  @db.ObjectId
+  
+  // Tasks
+  completedTasks UserTask[]
+}
+
+model Task {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  description  String
+  points       Int
+  type         TaskType
+  category     String
+  image        String
+  callToAction String
+  taskData     Json?
+  isActive     Boolean    @default(true)
+  userTasks    UserTask[]
+}
+
+model UserTask {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  user               User     @relation(fields: [userId], references: [id])
+  userId             String   @db.ObjectId
+  task               Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId             String   @db.ObjectId
+  taskStartTimestamp DateTime @default(now())
+  isCompleted        Boolean  @default(false)
+  updatedAt          DateTime @updatedAt
+
+  @@unique([userId, taskId])
+}
+
+enum TaskType {
+  VISIT
+  TELEGRAM
+  REFERRAL
+}
